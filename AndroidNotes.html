@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Connectvity</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+<style>
+	.header{
+	position:fixed;
+	width:100%;
+	margin-top:-50px;
+	z-index:2;
+	}
+
+    .nav{
+			height: 95vh;
+			width: 250px;
+			padding-top: 20px;
+
+			scroll-behavior: hidden;
+			overflow-x: hidden;
+			position: fixed;
+			background:#B7F7DC;
+			border-right: 1px solid #5cb85c;
+			border-radius:10px;
+		}
+		.nav a{
+			padding: 6px 8px 6px 16px;
+			text-decoration: none;
+			font-size: 15px;
+			color: #145A32;
+			display: block;
+			font-family: 'Noto Sans JP', sans-serif;
+		}
+		.nav b{
+		color: #145A32;
+		}
+		.nav a:active{
+		color:#ffffff;
+		}
+		.main {
+  margin-left:260px;
+  margin-top:50px;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+small{
+	float: left;
+	display: none;
+	cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .nav{
+  	display: none;
+  	z-index:5;
+
+  }
+	  .main {
+	  margin:10px;
+	 margin-top:50px;
+	}
+	small{
+		float: left;
+	display: block;
+	}
+}
+
+
+
+</style>
+<script type="text/javascript">
+	function myFunction() {
+  var x = document.getElementById("nav");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function myFunctionbody() {
+  var x = document.getElementById("nav");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+<body>
+<div class="header">
+    <h4 class="alert alert-success text-center "><small onclick="myFunction();" >&#9776;</small>Android Database Connectvity</h4>
+</div>
+<div class="nav-link nav alert alrt-success" id="nav">
+			<b>Steps for saving data using SQlite in android will be as:</b>
+			<a href="#step1">Define a schema and contract</a>
+			<a href="#step2">Create a database using an SQL helper</a>
+			<a href="#step3">Put information into database </a>
+			<a href="#step4">Read information from  database</a>
+			<a href="#step5">Delete information from  database</a>
+			<a href="#step6">Update information into database</a>
+</div>
+<div class="main" onclick="myFunctionbody();">
+
+	<!-- 1  Define a schema and contract -->			
+<div>
+	<h3 class="alert alert-primary" id="step1">Define a schema and contract</h3>
+	<b>One of the main principlesof SQL database is the schema:</b>
+	<p>A formal declaration of how the database is organised. The schema is reflected in the SQL statements that you use to create your database.</p>
+	<p>A contract class is container for constants that define names for URIs, tables and columns. The contract class allows you to use the same contansts across all the other classes in the same package. This lets you change a cloumn name in one place and have it propagate throughout your code.</p>
+	<p class="text text-info  ">Note:- Create seprate inner class for all tables.</p>
+</div>
+
+	<!-- 2  Create a database using an SQL helper -->
+<div>
+	<h3 class="alert alert-primary" id="step2">Create a database using an SQL helper</h3>
+	<p class="font-weight-bold">Android stores your database in your app's private folder. Our data is secure, because by default this area is not accessible to other aaps or the users.</p>
+	<p>The <b>SQLiteOpenHelper</b> class contains a useful set of APIs for managing your database. When you use this class to obtains references to your database, the system perform the potentially long-running operations of creating and updating the database only when needed and not during app startup. All you need to do is call <b>getWritableDatabase()</b> or <b>getReadableDatabase()</b></p>
+	<p>To use <b>SQLiteOpenHelper</b>, create a subclass that ovverides the <b>onCreate()</b> and <b>onUpgrade()</b> callback methods. you may also want to implement the <b>onDowngrade()</b> or <b>onOpen()</b> methods but they are not required.</p>
+	<p class="font-weight-bold">Examples 1:-</p>
+	<pre  class="alert alert-dark">
+	public final class FeedReaderContract(CLASSBNAME)
+	{
+		//To prevent someone from accidentially initialising the contract class, make the constructor private.
+		private FeedReaderContract(){}
+		//Inner class that defines the table contents
+		public static class FeedEntry implements BaseColumns
+		{
+			public static final String TABLE_NAME = "entry";
+			public static final String COLUMN_NAME_TITLE = "title";
+			public static final String COLUMN_NAME_SUBTITLE = "subtitle";
+		}
+	}
+</pre>
+<p class="font-weight-bold">Example 2:-</p>
+	<pre class="alert alert-dark">
+		private vstatic final String SQL_CREATE_ENTRIRIES = "CREATE TABLE " + FeedEntry.TABLE_NAME + "(" + FeedEntry._ID + "INTEGER PRIMARY KEY, " + FeedEntry.COLUMN_NAME_TITLE + "Text, " + FeedEntry.COLUMN_NAME_SUBTITLE + "Text)";
+
+		private static final String SQL_DELETE_ENTRIES = "DROP TABLE If EXISTS " +FeedEntry.TABLE_NAME;
+	</pre>
+
+	<p class="font-weight-bold">Example 3:-</p>
+	<pre class="alert alert-dark">
+		public class FeedReaderDbHelper extends SQLiteOpenHelper
+		{
+			//If you change the database schema, you must increment the database version
+			public static final int DATABASE_VERSION = 1;
+			public static final String DATABAE_NAME = "FeedReader.db";
+			public FeedReaderDbHelper(Context c)
+			{
+				super(c, DATABASE_NAME, null, DATABASE_VERSION);
+			}
+
+			@Ovveride
+			public void onCreate(SQLiteDatabase db)
+			{
+				db.execSQL(SQL_CREATE_ENTRIES);
+			}
+
+			@Ovveride
+			public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+			{
+				//This database is only a cache for online data, so its upgrade policy is to simply to discard the data and start over
+				db.execSQL(SQL_DELETE_ENTRIES);
+				onCreate(db);
+			}
+		}
+	</pre>
+</div>
+
+<!-- 3 Put information into a database -->
+<div>
+	<h3 class="alert alert-primary" id="step3"> Put information into a database</h3>
+			<p>The first arguments for <b>insert()</b> is simply the table name.</p>
+			<p>The second arguments tells the framework what to do in the event that the <b>ContentValues</b> is empty. If you specify the name of a column, the framework inserts a row and sets the value of the column to  null. If you specify <b>null</b>, the framework does not insert a row when there are no values.</p>
+			<p>The <b>insert()</b> methods returns the ID for the newly created row, or it will return -1 if there was an error inserting the data. This can happen if you have a conflict with pre-existing data in tha database.</p>
+
+			<p class="font-weight-bold">Example 4:-</p>
+			<pre class="alert alert-dark">
+				SQLiteDatabase db = dbHelper.getWritableDatabase();
+				//Create a new map of values, where column names are the keys.
+				ContentValues values = new ContentValues();
+				values.put(FeedEntry.COLUMN_NAME_TITLE, title);
+				values.put(FeedEntry.COLUMN_NAME_SUBTITLE, subtitle);
+
+				//Insert the new row, returning the primary key value of the new row
+				Long newRowId = db.insert(FeedEntry.TABLE_NAME, null, values);
+			</pre>
+
+</div>
+
+<!-- 4  Read information from a database -->
+<div>
+	<h3 class="alert alert-primary" id="step4">Read information from a database</h3>
+			<p>To read from a database, use the <b>query()</b> method, passing it your selectioncriteria and desired columns. The method combines elements of <b>insert()</b> and <b>update()</b>, except the column list defines the data you want to fetch, rather the data to insert. The results of the query are returned to you in a class a <b>Cursor</b> object.</p>
+			<p>Third and fourt arguments (selection and selectionArgs) are combined to create a <b>WHERE</b> clause.</p>
+
+			<p class="font-weight-bold">Example 5:-</p>
+<pre class="alert alert-dark">
+	SQLiteDatabase db = dbHelper.getReadableDatabase();
+	Cursor cursor = db.query(FeedEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+	1. The table to query
+	2. The array of columns to return(pass null to get all)
+	3. The columns for the WHERE clause
+	4. The values for the WHERE clause
+	5. Don't group the rows
+	6. Don't filter by row groups
+	7. The sort order
+</pre>
+</div>
+<!-- 5  Delete information from a database -->
+<div>
+	<h3 class="alert alert-primary" id="step5">Delete information from a database</h3>
+			<p>To delete rows from a table, you need to provide selection criteria that identify the rows to the <b>delete()</b> method. The mechanism work the same as the selection arguments to the <b>query()</b> method.</p>
+			<p>The return value for the <b>delete()</b> method indicates the number of the rows that were deleted from the database.</p>
+			<p class="font-weight-bold">Example 6:-</p>
+	<pre class="alert alert-dark">
+		//Define 'where' part of query
+		String selection = FeedEntry.COLUMN_NAME_TITLE + "LIKE ?";
+		//Specify arguments in placeholder order.
+		String[] selectionArgs = {" MyTitle "};
+		//Issue SQL Statement
+		int deleteRows = db.delete(FeedEntry.TABLE_NAME,selection,selectionArgs);
+	</pre>
+
+			
+</div>
+<!-- 6  Update a database -->
+<div>
+	<h3 class="alert alert-primary" id="step6">Update a database</h3>
+			<p>When you need to modify a subset of your database values use the <b>update()</b> method.</p>
+			<p>Updating the table combines the ContentValues syntax of <b>insert()</b> with the <b>WHERE</b> syntax of <b>delete()</b>.</p>
+			<p>The return value of the <b>update()</b> method is the number of rows affected in the database.</p>
+			<p class="font-weight-bold">Example 7:-</p>
+	<pre class="alert alert-dark">
+		int count = db.update(FeedReaderDbHelper.FeedEntry.TABLE_NAME, values, selection, selectionArgs);
+	</pre>
+</div>
+
+</div>
+</body>
+<!-- Footer -->
+<footer class=" alert alert-dark page-footer font-small unique-color-dark pt-4 main">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Call to action -->
+    <ul class="list-unstyled list-inline text-center py-2">
+      <li class="list-inline-item">
+        <h5 class="mb-1">Register for free</h5>
+      </li>
+      <li class="list-inline-item">
+        <a href="#!" class="btn btn-outline-white btn-rounded">Sign up!</a>
+      </li>
+    </ul>
+    <!-- Call to action -->
+
+  </div>
+  <!-- Footer Elements -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="#"> ricla.in</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+
+
+</html>
